@@ -35,7 +35,7 @@ public class HomeMode {
             return "回家模式：开启" + (p.getBoolean(AppPrefs.KEY_HOME_MODE_FORCE, false) ? "（强制抱回）" : "（只弹窗）") +
                     "\n盯住：" + p.getString(AppPrefs.KEY_HOME_WATCH_PACKAGES, "com.ss.android.ugc.aweme,com.xingin.xhs") +
                     "\n超过：" + p.getInt(AppPrefs.KEY_HOME_THRESHOLD_MIN, 10) + " 分钟  冷却：" + p.getInt(AppPrefs.KEY_HOME_COOLDOWN_MIN, 5) + " 分钟" +
-                    "\n抱回：" + AppPrefs.homeTargetLabel(ctx) + "（" + AppPrefs.homeTargetPackage(ctx) + "）";
+                    "\n抱回：" + AppPrefs.homeTargetLabel(ctx);
         } catch (Exception e) { return "回家模式读取失败：" + ScreenshotService.shortMsg(e); }
     }
 
@@ -45,7 +45,8 @@ public class HomeMode {
             if (!p.getBoolean(AppPrefs.KEY_HOME_MODE_ENABLED, false)) return;
             String pkg = state.optString("current_package", "").trim();
             if (pkg.length() == 0 || pkg.equals(ctx.getPackageName())) return;
-            String target = AppPrefs.homeTargetPackage(ctx).trim();
+            String target = AppPrefs.homeTargetPackage(ctx);
+            if (target.isEmpty()) return;
             if (pkg.equals(target)) { resetCurrent(p); return; }
             if (!isWatched(p.getString(AppPrefs.KEY_HOME_WATCH_PACKAGES, "com.ss.android.ugc.aweme,com.xingin.xhs"), pkg)) { resetCurrent(p); return; }
 
@@ -65,9 +66,7 @@ public class HomeMode {
 
             p.edit().putLong(KEY_LAST_FIRE, now).apply();
             String app = state.optString("current_app", pkg);
-            String user = AppPrefs.userName(ctx);
-            String partner = AppPrefs.partnerName(ctx);
-            boolean popup = CompanionService.showReminderNotification(ctx, "掌心窗回家模式", user + "，你在 " + app + " 停了 " + ((now - start) / MIN) + " 分钟。休息一下，回" + partner + "这儿。");
+            boolean popup = CompanionService.showReminderNotification(ctx, "掌心窗回家模式", AppPrefs.userName(ctx) + "，你在 " + app + " 停了 " + ((now - start) / MIN) + " 分钟。休息一下，回到" + AppPrefs.companionName(ctx) + "这里吧。");
             DebugState.append(ctx, popup ? "回家模式已发悬浮横幅提醒：" + pkg : "回家模式提醒失败：" + pkg);
             if (p.getBoolean(AppPrefs.KEY_HOME_MODE_FORCE, false)) {
                 String result = CompanionService.openPackageResult(ctx, target);

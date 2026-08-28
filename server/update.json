@@ -1,14 +1,16 @@
 {
-  "latest_version_name": "0.3.5.0",
-  "latest_version_code": 30500,
-  "apk_url": "https://github.com/linzhi-524/linjian-peek-public/releases/download/v0.3.5.0/Zhangxinchuang-public-v0.3.5.0.apk",
+  "latest_version_name": "0.3.7.3",
+  "latest_version_code": 30703,
+  "apk_url": "https://github.com/linzhi-524/linjian-peek-public/releases/download/v0.3.7.3/Zhangxinchuang-public-v0.3.7.3.apk",
   "sha256": "",
   "required": false,
   "changelog": [
-    "新增「归电」功能：很久没有回到目标 App 时，可用来电式全屏页提醒回来。",
-    "感官页新增归电状态卡：显示上次回来、下次最早归电、今日次数、最近拒绝理由与自动检查结果。",
-    "设置页新增归电设置：可改开关、间隔、冷却、每日上限、安静时段、目标 App、主题、文案池和拒绝理由。",
-    "归电对象会读取设置里的对方/AI 称呼；目标 App 可填 ChatGPT、Claude、Gemini、应用昵称或包名。",
-    "MCP 新增 get_guidian_state、set_guidian_config、trigger_guidian、mark_guidian_returned，并保留公开版不合并聆音、鲸鸣、声息。"
+    "今日页「此刻状态」卡片新增媒体状态，开启通知使用权后可显示正在播放的歌曲/音频、歌手、播放状态和来源 App。",
+    "修复归电来电页接通后没有打开归电设置指定包名的问题。",
+    "修复陪伴页「xx 的行动」不显示 AI/MCP 工具调用记录的问题。",
+    "MCP 行动同步写入统一行动日志，手机端合并本地与远端行动记录。",
+    "Railway 文档改为手动双服务部署，移除一键模板引导，避免把 server 域名误填为 MCP 地址。",
+    "server 收到 /mcp 或 /sse 时会返回更明确的 wrong service 提示。",
+    "固定签名保持不变，支持覆盖安装旧版本。"
   ]
 }
